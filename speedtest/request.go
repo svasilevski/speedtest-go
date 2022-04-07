@@ -289,6 +289,7 @@ func (s *Server) PingTestContext(ctx context.Context) error {
 			return err
 		}
 		req.Close = true
+		//
 
 		fTime := time.Now()
 		if fTime.Sub(sTime) < l {
