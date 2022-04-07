@@ -189,6 +189,7 @@ func dlWarmUp(ctx context.Context, dlURL string) error {
 	if err != nil {
 		return err
 	}
+	req.Close = true
 	defer resp.Body.Close()
 	_, err = io.Copy(ioutil.Discard, resp.Body)
 	return err
@@ -209,6 +210,7 @@ func ulWarmUp(ctx context.Context, ulURL string) error {
 	if err != nil {
 		return err
 	}
+	req.Close = true
 	defer resp.Body.Close()
 	_, err = io.Copy(ioutil.Discard, resp.Body)
 	return err
@@ -227,6 +229,7 @@ func downloadRequest(ctx context.Context, dlURL string, w int) error {
 	if err != nil {
 		return err
 	}
+	req.Close = true
 	defer resp.Body.Close()
 	_, err = io.Copy(ioutil.Discard, resp.Body)
 	return err
@@ -247,6 +250,7 @@ func uploadRequest(ctx context.Context, ulURL string, w int) error {
 	if err != nil {
 		return err
 	}
+	req.Close = true
 	defer resp.Body.Close()
 
 	_, err = io.Copy(ioutil.Discard, resp.Body)
