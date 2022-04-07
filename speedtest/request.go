@@ -198,7 +198,7 @@ func dlWarmUp(ctx context.Context, doer *http.Client, dlURL string) error {
 	if err != nil {
 		return err
 	}
-	req.Close = true
+	// req.Close = true
 	defer resp.Body.Close()
 	_, err = io.Copy(ioutil.Discard, resp.Body)
 	return err
@@ -219,7 +219,7 @@ func ulWarmUp(ctx context.Context, doer *http.Client, ulURL string) error {
 	if err != nil {
 		return err
 	}
-	req.Close = true
+	// req.Close = true
 	defer resp.Body.Close()
 	_, err = io.Copy(ioutil.Discard, resp.Body)
 	return err
@@ -238,7 +238,7 @@ func downloadRequest(ctx context.Context, doer *http.Client, dlURL string, w int
 	if err != nil {
 		return err
 	}
-	req.Close = true
+	// req.Close = true
 	defer resp.Body.Close()
 	_, err = io.Copy(ioutil.Discard, resp.Body)
 	return err
@@ -259,7 +259,7 @@ func uploadRequest(ctx context.Context, doer *http.Client, ulURL string, w int) 
 	if err != nil {
 		return err
 	}
-	req.Close = true
+	// req.Close = true
 	defer resp.Body.Close()
 
 	_, err = io.Copy(ioutil.Discard, resp.Body)
@@ -288,7 +288,7 @@ func (s *Server) PingTestContext(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
-		req.Close = true
+		// req.Close = true
 		//
 
 		fTime := time.Now()
