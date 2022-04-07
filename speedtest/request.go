@@ -189,6 +189,7 @@ func dlWarmUp(ctx context.Context, doer *http.Client, dlURL string) error {
 	xdlURL := dlURL + "/random" + strconv.Itoa(size) + "x" + strconv.Itoa(size) + ".jpg"
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, xdlURL, nil)
+	req.Close = true
 	if err != nil {
 		return err
 	}
@@ -208,6 +209,7 @@ func ulWarmUp(ctx context.Context, doer *http.Client, ulURL string) error {
 	v.Add("content", strings.Repeat("0123456789", size*100-51))
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, ulURL, strings.NewReader(v.Encode()))
+	req.Close = true
 	if err != nil {
 		return err
 	}
@@ -227,6 +229,7 @@ func downloadRequest(ctx context.Context, doer *http.Client, dlURL string, w int
 	xdlURL := dlURL + "/random" + strconv.Itoa(size) + "x" + strconv.Itoa(size) + ".jpg"
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, xdlURL, nil)
+	req.Close = true
 	if err != nil {
 		return err
 	}
@@ -246,6 +249,7 @@ func uploadRequest(ctx context.Context, doer *http.Client, ulURL string, w int) 
 	v.Add("content", strings.Repeat("0123456789", size*100-51))
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, ulURL, strings.NewReader(v.Encode()))
+	req.Close = true
 	if err != nil {
 		return err
 	}
@@ -275,6 +279,7 @@ func (s *Server) PingTestContext(ctx context.Context) error {
 		sTime := time.Now()
 
 		req, err := http.NewRequestWithContext(ctx, http.MethodGet, pingURL, nil)
+		req.Close = true
 		if err != nil {
 			return err
 		}
