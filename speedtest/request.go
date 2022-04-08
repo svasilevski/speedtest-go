@@ -60,7 +60,7 @@ func (s *Server) downloadTestContext(
 	weight := 0
 	skip := false
 	if savingMode {
-		workload = 6
+		workload = 3
 		weight = 3
 	} else if 50.0 < wuSpeed {
 		workload = 32
