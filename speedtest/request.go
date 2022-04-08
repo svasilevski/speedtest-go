@@ -81,8 +81,8 @@ func (s *Server) downloadTestContext(
 
 	// handle very low bandwidth links
 	if lowBandiwdth {
-		workload = 3
-		weight = 1
+		workload = 5
+		weight = 2
 	}
 
 	// Main speedtest
