@@ -19,6 +19,7 @@ func TestDownloadTestContext(t *testing.T) {
 		false,
 		mockWarmUp,
 		mockRequest,
+		false,
 	)
 	if err != nil {
 		t.Errorf(err.Error())
@@ -40,6 +41,7 @@ func TestDownloadTestContextSavingMode(t *testing.T) {
 		true,
 		mockWarmUp,
 		mockRequest,
+		false,
 	)
 	if err != nil {
 		t.Errorf(err.Error())
@@ -61,6 +63,7 @@ func TestUploadTestContext(t *testing.T) {
 		false,
 		mockWarmUp,
 		mockRequest,
+		false,
 	)
 	if err != nil {
 		t.Errorf(err.Error())
@@ -82,6 +85,7 @@ func TestUploadTestContextSavingMode(t *testing.T) {
 		true,
 		mockWarmUp,
 		mockRequest,
+		false,
 	)
 	if err != nil {
 		t.Errorf(err.Error())

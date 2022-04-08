@@ -23,13 +23,13 @@ var ulSizes = [...]int{100, 300, 500, 800, 1000, 1500, 2500, 3000, 3500, 4000} /
 var client = http.Client{}
 
 // DownloadTest executes the test to measure download speed
-func (s *Server) DownloadTest(savingMode bool) error {
-	return s.downloadTestContext(context.Background(), savingMode, dlWarmUp, downloadRequest)
+func (s *Server) DownloadTest(savingMode bool, lowBandiwdth bool) error {
+	return s.downloadTestContext(context.Background(), savingMode, dlWarmUp, downloadRequest, lowBandiwdth)
 }
 
 // DownloadTestContext executes the test to measure download speed, observing the given context.
-func (s *Server) DownloadTestContext(ctx context.Context, savingMode bool) error {
-	return s.downloadTestContext(ctx, savingMode, dlWarmUp, downloadRequest)
+func (s *Server) DownloadTestContext(ctx context.Context, savingMode bool, lowBandiwdth bool) error {
+	return s.downloadTestContext(ctx, savingMode, dlWarmUp, downloadRequest, lowBandiwdth)
 }
 
 func (s *Server) downloadTestContext(
@@ -37,6 +37,7 @@ func (s *Server) downloadTestContext(
 	savingMode bool,
 	dlWarmUp downloadWarmUpFunc,
 	downloadRequest downloadFunc,
+	lowBandiwdth bool,
 ) error {
 	dlURL := strings.Split(s.URL, "/upload.php")[0]
 	eg := errgroup.Group{}
@@ -60,7 +61,7 @@ func (s *Server) downloadTestContext(
 	weight := 0
 	skip := false
 	if savingMode {
-		workload = 3
+		workload = 6
 		weight = 3
 	} else if 50.0 < wuSpeed {
 		workload = 32
@@ -76,6 +77,12 @@ func (s *Server) downloadTestContext(
 		weight = 4
 	} else {
 		skip = true
+	}
+
+	// handle very low bandwidth links
+	if lowBandiwdth {
+		workload = 3
+		weight = 3
 	}
 
 	// Main speedtest
@@ -101,19 +108,20 @@ func (s *Server) downloadTestContext(
 }
 
 // UploadTest executes the test to measure upload speed
-func (s *Server) UploadTest(savingMode bool) error {
-	return s.uploadTestContext(context.Background(), savingMode, ulWarmUp, uploadRequest)
+func (s *Server) UploadTest(savingMode bool, lowBandiwdth bool) error {
+	return s.uploadTestContext(context.Background(), savingMode, ulWarmUp, uploadRequest, lowBandiwdth)
 }
 
 // UploadTestContext executes the test to measure upload speed, observing the given context.
-func (s *Server) UploadTestContext(ctx context.Context, savingMode bool) error {
-	return s.uploadTestContext(ctx, savingMode, ulWarmUp, uploadRequest)
+func (s *Server) UploadTestContext(ctx context.Context, savingMode bool, lowBandiwdth bool) error {
+	return s.uploadTestContext(ctx, savingMode, ulWarmUp, uploadRequest, lowBandiwdth)
 }
 func (s *Server) uploadTestContext(
 	ctx context.Context,
 	savingMode bool,
 	ulWarmUp uploadWarmUpFunc,
 	uploadRequest uploadFunc,
+	lowBandiwdth bool,
 ) error {
 	// Warm up
 	sTime := time.Now()
@@ -136,7 +144,7 @@ func (s *Server) uploadTestContext(
 	skip := false
 	if savingMode {
 		workload = 1
-		weight = 0
+		weight = 5
 	} else if 50.0 < wuSpeed {
 		workload = 40
 		weight = 9
@@ -151,6 +159,12 @@ func (s *Server) uploadTestContext(
 		weight = 5
 	} else {
 		skip = true
+	}
+
+	// handle very low bandwidth links
+	if lowBandiwdth {
+		workload = 1
+		weight = 0
 	}
 
 	// Main speedtest
