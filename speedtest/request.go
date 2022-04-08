@@ -136,7 +136,7 @@ func (s *Server) uploadTestContext(
 	skip := false
 	if savingMode {
 		workload = 1
-		weight = 3
+		weight = 0
 	} else if 50.0 < wuSpeed {
 		workload = 40
 		weight = 9
